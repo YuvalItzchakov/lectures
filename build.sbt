@@ -1,7 +1,7 @@
 
 val common = Seq(
   version      := "DEVELOP",
-  scalaVersion := "2.12.6"
+  scalaVersion := "2.12.8"
 )
 
 val reactV = "16.2.0"

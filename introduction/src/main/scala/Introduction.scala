@@ -37,40 +37,10 @@ object Introduction extends JSApp {
       "The Team",
       <.img(
         ^.cls := "team-img",
-        ^.alt := "Paul Heymann",
-        ^.src := "./img/paulheymann.jpg"
+        ^.alt := "Yuval Itzchakov",
+        ^.src := "./img/me.jpg"
       ),
-      <.p("Paul Heymann / Data Engineer @ XING")
-    ),
-
-    slide(
-      "The Team",
-      <.img(
-        ^.cls := "team-img",
-        ^.alt := "David Krentzlin",
-        ^.src := "./img/davidkrentzlin.jpg"
-      ),
-      <.p("David Krentzlin / Software Engineer @ XING")
-    ),
-
-    slide(
-      "The Team",
-      <.img(
-        ^.cls := "team-img",
-        ^.alt := "Christian Stein",
-        ^.src := "./img/christianstein.jpg"
-      ),
-      <.p("Christian Stein / Data Engineer @ XING")
-    ),
-
-    slide(
-      "The Team",
-      <.img(
-        ^.cls := "team-img florian-img",
-        ^.alt := "Florian Sachse",
-        ^.src := "./img/floriansachse.png"
-      ),
-      <.p("Florian Sachse / Data Engineer @ XING")
+      <.p("Yuval Itzchakov / Senior Software Engineer @ Data-Platform")
     ),
 
     slide(
@@ -98,9 +68,7 @@ object Introduction extends JSApp {
     slide(
       "How it works",
       Enumeration(
-        Item.stable("we will do a lunch break at 13:00"),
-        Item.fadeIn("5 to 10 minute break every hour"),
-        Item.fadeIn("or just ask :)")
+        Item.fadeIn("Breaks as needed (just ask for it :))"),
       )
     ),
 
@@ -123,7 +91,20 @@ object Introduction extends JSApp {
 
     slide(
       "Feedback",
-      <.p("Give direct feedback, or send us a mail.")
+      <.p("Give direct feedback, or at #tech-tlv-fp-in-scala")
+    ),
+
+    slide(
+      "Learning environment",
+      <.p("This is a safe learning environment")
+    ),
+
+    slide(
+      "Learning environment",
+      Enumeration(
+        Item.fadeIn(<.p("There are no stupid questions, just ask what you don't understand")),
+        Item.fadeIn(<.p("We are all here to learn (me included)"))
+      )
     )
   )
 
@@ -139,7 +120,7 @@ object Introduction extends JSApp {
 
     slide(
       "Coding Exercises",
-      <.p("We use SBT to build our code and execute tests."),
+      <.p("We use sbt to build our code and execute tests."),
       <.br,
       <.img(
         ^.alt := "SBT logo",
@@ -157,12 +138,12 @@ object Introduction extends JSApp {
     ),
 
     slide(
-      "SBT: simple project",
+      "sbt: simple project",
       bash("""
         my-project/
           # project information (sbt version, plugins, ...)
           project/
-        
+
           # source code directory
           src/
           # compiled results
@@ -174,10 +155,10 @@ object Introduction extends JSApp {
     ),
 
     slide(
-      "SBT: build file",
+      "sbt: build file",
       scalaC("""
         // build.sbt
-        scalaVersion := "2.12.6"
+        scalaVersion := "2.12.8"
         name         := "my-project"
 
         libraryDependencies ++= Seq(...)
@@ -185,28 +166,28 @@ object Introduction extends JSApp {
     ),
 
     slide(
-      "SBT: sub-projects",
+      "sbt: sub-projects",
       bash("""
         my-project/
           project/
-        
+
           # sub projects defined in the build file
           sub-project-0/
             src/
             target/
           sub-project-1/
            ...
- 
+
           build.sbt
       """)
     ),
 
     slide(
-      "SBT: build file",
+      "sbt: build file",
       scalaC("""
         // build.sbt
         val common = Seq(
-          scalaVersion := "2.12.6"
+          scalaVersion := "2.12.8"
         )
 
         lazy val root = project
@@ -224,7 +205,7 @@ object Introduction extends JSApp {
     ),
 
     slide(
-      "SBT: keep it running",
+      "sbt: keep it running",
       <.p("SBT needs a lot of time to start ... so keep it running."),
       <.br,
       bash("""
@@ -236,7 +217,7 @@ object Introduction extends JSApp {
     ),
 
     slide(
-      "SBT: commands",
+      "sbt: commands",
       bash("""
         # show all sub-projects
         sbt> projects
@@ -253,7 +234,7 @@ object Introduction extends JSApp {
     ),
 
     slide(
-      "SBT: commands",
+      "sbt: commands",
       bash("""
         # execute all tests
         sbt> test
@@ -264,7 +245,7 @@ object Introduction extends JSApp {
     ),
 
     slide(
-      "SBT: exercise",
+      "sbt: exercise",
       bash("""
         sbt> project <exercise project>
         sbt> compile <your code>
@@ -281,7 +262,7 @@ object Introduction extends JSApp {
     ),
 
     noHeaderSlide(
-      <.h3("That is all about SBT for now")
+      <.h3("That is all about sbt for now")
     )
   )
 
@@ -296,7 +277,7 @@ object Introduction extends JSApp {
     ),
 
     noHeaderSlide(
-      <.h3("Buil-In Scala REPL")
+      <.h3("Built-In Scala REPL")
     ),
 
     slide(
@@ -310,7 +291,7 @@ object Introduction extends JSApp {
         res0: Int = 2
 
         // exit with
-        scala> :q 
+        scala> :q
       """)
     ),
 
@@ -333,6 +314,10 @@ object Introduction extends JSApp {
 
     noHeaderSlide(
       <.h2("Any questions so far?")
+    ),
+
+    noHeaderSlide(
+      <.h2("Lets begin!")
     )
   )
 

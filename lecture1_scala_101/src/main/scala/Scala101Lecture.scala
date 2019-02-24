@@ -20,7 +20,7 @@ object Scala101Lecture extends JSApp {
       "What we will learn in this lecture",
       Enumeration(
         Item.stable("Scala background"),
-        Item.fadeIn("Expressions & Declarations & Objects"),
+        Item.fadeIn("Expressions & Declarations"),
         Item.fadeIn("Types"),
         Item.fadeIn("Functions"),
         Item.fadeIn("Classes"),
@@ -42,15 +42,15 @@ object Scala101Lecture extends JSApp {
     slide(
       "The Name",
       <.h3(
-        font(^.color := "#ce1d25", "Sca"), "lable ", 
+        font(^.color := "#ce1d25", "Sca"), "lable ",
         font(^.color := "#ce1d25", "La"), "nguage"
       ),
       <.br,
       <.h4(
         ^.cls := "fragment fade-in",
-        font(^.color := "#ce1d25", "S"), "low ", 
-        font(^.color := "#ce1d25", "C"), "ompiling ", 
-        font(^.color := "#ce1d25", "A"), "cademic ", 
+        font(^.color := "#ce1d25", "S"), "low ",
+        font(^.color := "#ce1d25", "C"), "ompiling ",
+        font(^.color := "#ce1d25", "A"), "cademic ",
         font(^.color := "#ce1d25", "La"), "nguage"
       )
     ),
@@ -127,72 +127,18 @@ object Scala101Lecture extends JSApp {
     slide(
       "Why Scala: industry & academia combined",
       Enumeration(
-        Item.stable("big players use it: Twitter, Stripe to name a few"),
+        Item.stable("big players use it: Twitter, Stripe, WeWork (:P) to name a few"),
         Item.fadeIn("backed by Lightbend Inc."),
         Item.fadeIn("backed by EPFL"),
         Item.fadeIn("... and of course by an Open Source community")
-      )
-    ),
-
-    noHeaderSlide(
-      <.h3("Why not to use Scala?")
-    ),
-
-    slide(
-      "Why not to use Scala: tooling",
-      <.h3("Tooling")
-    ),
-
-    slide(
-      "Why not to user Scala: learning curve",
-      <.img(
-        ^.alt := "Learning Curve",
-        ^.src := "./img/learning_curve.jpg"
-      )
-    ),
-
-    noHeaderSlide(
-      <.h3("Are you still convinced?"),
-      <.br,
-      <.h4(
-        ^.cls := "fragment fade-in",
-        "No is not an answer! So, let's move on."
       )
     )
   )
 
   val expressions = chapter(
     chapterSlide(
-      <.h2("Expressions & Declarations & Objects"),
-      <.h3("Scalas' basic building blocks")
-    ),
-
-    noHeaderSlide(
-      <.h3("Objects")
-    ),
-
-    slide(
-      "Objects",
-      <.p("An object is a collection of values and a set of operations on that values."),
-      <.br,
-      scalaC("""
-        // example: literal object
-        1
-        // value: integer 1
-        // operations: +, -, *, /, etc.
-      """),
-      scalaCFragment("""
-        // example: literal object
-        "Hello"
-        // value: string Hello
-        // operations: +, split, take, etc.
-      """),
-      scalaCFragment("""
-        // example: class object (tuple)
-        (1, "Hello")
-        // values: integer 1 and string Hello
-        // operations: _1, _2, swap, etc.
-      """)
+      <.h2("Expressions & Declarations"),
+      <.h3("Scalas basic building blocks")
     ),
 
     noHeaderSlide(
@@ -201,21 +147,8 @@ object Scala101Lecture extends JSApp {
 
     slide(
       "Expressions",
-      <.p("Expression can be objects, combination of objects or functions applied to objects. And they get evaluated/reduced to results.")
-    ),
-
-    slide(
-      "Objects as expressions",
-      <.p("Objects"),
-      <.br,
-      scalaC("""
-        // already in reduced form
-        1
-
-        'a'
-
-        "Hello"
-      """)
+      <.p("A combination of one or more constants, variables, operators, and functions that the programming language interprets and computes to produce another value. " +
+        "This process, as for mathematical expressions, is called evaluation.")
     ),
 
     slide(
@@ -282,7 +215,7 @@ object Scala101Lecture extends JSApp {
         // start with '{' and end with '}'
         {
           val a = 1 + 2
-      
+
           3 * a
         }
       """)
@@ -293,27 +226,27 @@ object Scala101Lecture extends JSApp {
       scalaC("""
         {
           val a = 1 + 2
-      
+
           3 * a
         }
       """),
       scalaCFragment("""
         {
            val a = 3      <==
-      
+
            3 * a
         }
       """),
       scalaCFragment("""
         {
            val a = 3
-      
+
            3 * 3          <==
         }
       """),
       scalaCFragment("""
          == 9
-      """)      
+      """)
     ),
 
     slide(
@@ -323,11 +256,11 @@ object Scala101Lecture extends JSApp {
       scalaC("""
         {
           val a = 1 + 2
- 
+
           // `a` in scope
           {
              val b = 3 + 4
- 
+
              a + b
           }
         }
@@ -339,7 +272,7 @@ object Scala101Lecture extends JSApp {
       scalaC("""
         {
           val a = 1 + 2
- 
+
           {
              val b = 3 + 4
 
@@ -350,10 +283,10 @@ object Scala101Lecture extends JSApp {
       scalaCFragment("""
         {
           val a = 3       <==
- 
+
           {
              val b = 7    <==
-  
+
              a + b
           }
         }
@@ -365,7 +298,7 @@ object Scala101Lecture extends JSApp {
       scalaC("""
         {
           val a = 3
- 
+
           {
              val b = 7
 
@@ -413,38 +346,6 @@ object Scala101Lecture extends JSApp {
       """)
     ),
 
-    exerciseSlide(
-      "Does it work?",
-      scalaC("""
-        val a = 5
-        {
-          val a = {
-            a * 10
-          }
-
-          a
-        }
-      """),
-      scalaCFragment("""
-        // no, you try to define `a` by using itself
-      """)
-    ),
-
-    exerciseSlide(
-      "Does it work?",
-      scalaC("""
-        val a = 5
-        {
-          val a = 10
-
-          a
-        }
-      """),
-      scalaCFragment("""
-        == 10
-      """)
-    ),
-
     noHeaderSlide(
       <.h3("Conditional Branching")
     ),
@@ -489,7 +390,7 @@ object Scala101Lecture extends JSApp {
       <.p("So far we have ..."),
       <.br,
       scalaC("""
-        // object expressions
+        // reduced expressions
         val PI     = 3.14
         val radius = 2.0
       """),
@@ -625,6 +526,11 @@ object Scala101Lecture extends JSApp {
 
     slide(
       "Definition",
+      <.h3("A type is a set of possible values which a variable can possess")
+    ),
+
+    slide(
+      "Definition",
       <.h3("Types put constraints on term")
     ),
 
@@ -681,7 +587,7 @@ object Scala101Lecture extends JSApp {
         "Hello " + true
       """),
       scalaCFragment("""
-        == "Hello true": String
+        == "Hello true": String 🤦‍
       """)
     ),
 
@@ -706,7 +612,7 @@ object Scala101Lecture extends JSApp {
       "Type: number types",
       <.p("Scala picks the more precise number type during operator application.")
     ),
-    
+
     slide(
       "Types are important",
       Enumeration(
@@ -730,12 +636,7 @@ object Scala101Lecture extends JSApp {
 
     slide(
       "Functions",
-      <.p("Special type of expression which has a name, takes input and returns, as always, a result.")
-    ),
-
-    slide(
-      "Functions",
-      <.h4("They are expressions with a declaration")
+      <.p("A type of expression which has a name, takes input arguments and produces an output")
     ),
 
     slide(
@@ -748,7 +649,7 @@ object Scala101Lecture extends JSApp {
         def plus(a: Int, b: Int): Int
         //   ^     ^       ^       ^
         //   |     '-------|       |
-        // identifier    input   result 
+        // identifier    input   result
       """),
       scalaCFragment("""
         // body expression
@@ -763,7 +664,7 @@ object Scala101Lecture extends JSApp {
     slide(
       "Functions: val syntax",
       scalaC("""
-        // functions are objects
+        // functions are values
 
         // this becomes
         def plus(a: Int, b: Int): Int = a + b
@@ -774,10 +675,11 @@ object Scala101Lecture extends JSApp {
     ),
 
     slide(
-      "Functions",
+      "Functions in Scala",
       Enumeration(
-        Item.stable("have a unique identifier (name)"),
+        Item.stable("May have a unique identifier (name)"),
         Item.fadeIn("declare a number of parameters as input (arity)"),
+        Item.fadeIn("declare multiple parameter lists"),
         Item.fadeIn("and a single result type"),
         Item.fadeIn("body expression fulfills the declaration")
       )
@@ -796,16 +698,16 @@ object Scala101Lecture extends JSApp {
     ),
 
     noHeaderSlide(
-      <.h3("Functions return objects. Functions are objects.")
+      <.h3("Functions return values. Functions are values themselves!")
     ),
 
     slide(
       "Curried Function",
       scalaC("""
         def plusCurried(a: Int): Int => Int = b => a + b
-        
+
         // equal to
-     
+
         def plusCurried(a: Int)(b: Int): Int = a + b
       """),
       scalaCFragment("""
@@ -836,6 +738,16 @@ object Scala101Lecture extends JSApp {
 
     slide(
       "Higher-Order functions",
+      <.p("""In mathematics and computer science, a higher-order function is a function that does at least one of the following:"""),
+      <.br,
+      Enumeration(
+        Item.stable("""takes one or more functions as arguments"""),
+        Item.fadeIn("""returns a function as its result.""")
+      )
+    ),
+
+    slide(
+      "Higher-Order functions",
       scalaC("""
         def plus(a: Int, b: Int): Int = ???
 
@@ -844,7 +756,7 @@ object Scala101Lecture extends JSApp {
           "The result for " + a + " and " + b + " is " + f(a, b)
         }
 
-        val plusMsg = resultMsg(plus)
+        val plusMsg: (Int, Int) => String = resultMsg(plus)
 
         plusMsg(1, 2) == "The result for 1 and 2 is 3"
       """),
@@ -852,7 +764,7 @@ object Scala101Lecture extends JSApp {
       scalaCFragment("""
         def multiply(a: Int, b: Int): Int = ???
 
-        val multMsg = resultMsg(multiply)
+        val multMsg: (Int, Int) => String = resultMsg(multiply)
 
         multMsg(1, 2) == "The result for 1 and 2 is 2"
       """)
@@ -860,7 +772,7 @@ object Scala101Lecture extends JSApp {
 
     slide(
       "Anonymous Functions",
-      <.p("Sometimes a function parameter in a higher-order function is only used ones. So why providing a whole declaration?")
+      <.p("Sometimes a function passed to a higher-order function is only used once, do we have to declare a name for it?")
     ),
 
     noHeaderSlide(
@@ -869,9 +781,14 @@ object Scala101Lecture extends JSApp {
 
     slide(
       "Anonymous Functions",
+      <.p("In computer programming, an anonymous function (function literal, lambda abstraction, or lambda expression) is a function definition that is not bound to an identifier. Anonymous functions are often arguments being passed to higher-order functions, or used for constructing the result of a higher-order function that needs to return a function")
+    ),
+
+    slide(
+      "Anonymous Functions",
       scalaC("""
         // just provide the expression body - no declaration
-        val subMsg = resultMsg((a, b) => a - b)
+        val subMsg: (Int, Int) => String = resultMsg((a, b) => a - b)
 
         subMsg(1 , 2) == "The result of 1 and 2 is -1"
       """)
@@ -902,7 +819,7 @@ object Scala101Lecture extends JSApp {
 
         object Functions {
           // your code goes here
-          
+
           ...
         }
       """)
@@ -930,21 +847,21 @@ object Scala101Lecture extends JSApp {
 
     slide(
       "Create a new type",
-      <.h3("Scala's objects only get us so far."),
+      <.h3("Scala's built in types only get us so far."),
       <.br,
       <.h4("We want to be able to create our own.")
     ),
 
     slide(
       "Create a new type",
-      <.p("You create new types in Scala by defining Classes. A class is a way to define a set of objects which have same fields and functions."),
+      <.p("You create new types in Scala by defining classes. A class is a way to define a set of values which have same fields and functions."),
       <.br,
       Enumeration(
         Item.fadeIn("class"),
         Item.fadeIn("case class"),
         Item.fadeIn("object"),
         Item.fadeIn("trait"),
-        Item.fadeIn("abstract Class")
+        Item.fadeIn("abstract class")
       )
     ),
 
@@ -1030,7 +947,7 @@ object Scala101Lecture extends JSApp {
       <.br,
       scalaC("""
         // or
-        def isOlder(user: Person)(other: Person): Boolean = 
+        def isOlder(user: Person)(other: Person): Boolean =
           user.age > other.age
       """),
       scalaCFragment("""
@@ -1142,11 +1059,11 @@ object Scala101Lecture extends JSApp {
       "Objects",
       scalaC("""
         object Predef {
-        
+
           // constant fields start with a uppercase letter
           val Gandalf = Person("Gandalf", 2019)
 
-          def older(a: Person, b: Person): Person = 
+          def older(a: Person, b: Person): Person =
             if (a.age > b.age) a else b
         }
       """),
@@ -1168,7 +1085,7 @@ object Scala101Lecture extends JSApp {
 
           val Gandalf = Person("Gandalf", 2019)
 
-          def isGandalf(person: Person): Boolean = 
+          def isGandalf(person: Person): Boolean =
             person.name == "Gandalf"
         }
       """)
@@ -1188,8 +1105,8 @@ object Scala101Lecture extends JSApp {
       scalaC("""
         // all people (of some magic realm) but of different type
         case class Wizard(name: String, power: String)
-        case class Elf(name: String, age: Int)        
-        case class Dwarf(name: String, height: Int)   
+        case class Elf(name: String, age: Int)
+        case class Dwarf(name: String, height: Int)
       """)
     ),
 
@@ -1268,7 +1185,14 @@ object Scala101Lecture extends JSApp {
 
     slide(
       "Functions and Classes",
-      <.p("Function values are instances of Function-Classes in Scala. A Function-Class is a class which provides an ", <.strong("apply"), " method.")
+      <.p("Function values are instances of Function-Classes in Scala. A Function-Class is a class which provides an ", <.strong("apply"), " method."),
+      scalaC(
+        """
+          |trait Function1[-T1, +R] {
+          |  def apply(v1: T1): R
+          |}
+        """.stripMargin
+      )
     ),
 
     slide(
@@ -1356,8 +1280,16 @@ object Scala101Lecture extends JSApp {
 
     slide(
       "Pattern Matching",
+      <.p(<.i(
+        """
+          |In computer science, pattern matching is the act of checking a given sequence of tokens for the presence of the constituents of some pattern.
+        """.stripMargin))
+    ),
+
+    slide(
+      "Pattern Matching",
       Enumeration(
-        Item.stable("match values against pattern"),
+        Item.stable("match values against types"),
         Item.fadeIn("extract information"),
         Item.fadeIn("decide program control flow")
       )
@@ -1366,6 +1298,11 @@ object Scala101Lecture extends JSApp {
     slide(
       "Pattern Matching",
       scalaC("""
+        sealed trait Person
+        case class Wizard(name: String, power: String) extends Person
+        case class Elf(name: String, age: Int)         extends Person
+        case class Dwarf(name: String, height: Int)    extends Person
+
         val person: Person = ???
 
         person match {
@@ -1426,7 +1363,7 @@ object Scala101Lecture extends JSApp {
     ),
 
     slide(
-      "Ommit values you don't need",
+      "Omit values you don't need",
       scalaC("""
         val person: Person = ???
 
@@ -1521,6 +1458,22 @@ object Scala101Lecture extends JSApp {
       """)
     ),
 
+    slide(
+      "We can even match on regex!",
+      scalaC("""
+        val MatchAllAscii: Regex = "[a-zA-Z]+".r
+
+        val p: Person = Wizard("yuval", "scala")
+
+        val res = p match {
+          case Wizard(name @ MatchAllAscii(_*), _) => s"Regex pattern matched ASCII chars! Name: $name"
+          case Wizard(nonAsciiName, _) => s"Wizard with non ASCII name: Name: $nonAsciiName"
+          case _ => "What is this nonsense?"
+        }
+
+        // Regex pattern matched ASCII chars! Name: yuval
+      """)
+    ),
     exerciseSlide(
       "Let's code: Pattern Matching",
       bash("""
@@ -1540,7 +1493,7 @@ object Scala101Lecture extends JSApp {
       scalaC("""
         {
           val a = 1 + 2
-      
+
           3 * a
         }
 
