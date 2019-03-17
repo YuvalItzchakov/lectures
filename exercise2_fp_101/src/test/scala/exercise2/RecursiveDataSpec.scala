@@ -7,7 +7,7 @@ import org.scalacheck.Prop._
 object RecursiveDataSpec extends Properties("recursive data") {
 
   val listGen = Gen.choose(0, 10).flatMap { length =>
-    def generateList(acc: List[Int], l: Int): Gen[List[Int]] = {
+    def generateList(acc: MyList[Int], l: Int): Gen[MyList[Int]] = {
       if (l == 0)
         acc
       else for {

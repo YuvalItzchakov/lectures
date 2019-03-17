@@ -2,12 +2,12 @@ package exercise2
 
 object RecursiveDataSolution {
 
-  def isListEmpty(list: List[Int]): Boolean = list match {
+  def isListEmpty(list: MyList[Int]): Boolean = list match {
     case Cons(_, _) => false
     case Nil()      => true
   }
 
-  def listHead(list: List[Int]): Int = list match {
+  def listHead(list: MyList[Int]): Int = list match {
     case Cons(head, _) => head
     case Nil()         => -1
   }

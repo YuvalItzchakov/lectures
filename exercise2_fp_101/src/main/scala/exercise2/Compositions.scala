@@ -34,14 +34,14 @@ object Compositions {
                              (g: B => C)
                              (h: C => D): A => D = ???
 
-  // b) Combose the functions using `map` and `flatMap`. You can implement your solution directly in the test-function.
+  // b) Compose the functions using `map` and `flatMap`. You can implement your solution directly in the test-function.
   //    DO NOT change the signature
 
   def testMapFlatMap[A, B, C, D](f: A => Option[B])
                                 (g: B => Option[C])
                                 (h: C => D): Option[A] => Option[D] = ???
 
-  // c) Combose the functions using for-comprehension. You can implement your solution directly in the test-function.
+  // c) Compose the functions using for-comprehension. You can implement your solution directly in the test-function.
   //    DO NOT change the signature
 
   def testForComprehension[A, B, C, D](f: A => Option[B])

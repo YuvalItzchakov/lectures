@@ -4,9 +4,9 @@ import scala.annotation.tailrec
 
 object RecursiveFunctionsSolution {
 
-  def reverse[A](list: List[A]): List[A] = {
+  def reverse[A](list: MyList[A]): MyList[A] = {
     @tailrec
-    def loop(rem: List[A], agg: List[A]): List[A] = rem match {
+    def loop(rem: MyList[A], agg: MyList[A]): MyList[A] = rem match {
       case Nil()         => agg
       case Cons(a, tail) => loop(tail, Cons(a, agg))
     }
@@ -14,9 +14,9 @@ object RecursiveFunctionsSolution {
     loop(list, Nil())
   }
 
-  def map[A, B](list: List[A])(f: A => B): List[B] = {
+  def map[A, B](list: MyList[A])(f: A => B): MyList[B] = {
     @tailrec
-    def loop(rem: List[A], agg: List[B]): List[B] = rem match {
+    def loop(rem: MyList[A], agg: MyList[B]): MyList[B] = rem match {
       case Nil()         => agg
       case Cons(a, tail) => loop(tail, Cons(f(a), agg))
     }
@@ -24,9 +24,9 @@ object RecursiveFunctionsSolution {
     reverse(loop(list, Nil()))
   }
 
-  def append[A](l: List[A], r: List[A]): List[A] = {
+  def append[A](l: MyList[A], r: MyList[A]): MyList[A] = {
     @tailrec
-    def loop(lReversedRem: List[A], agg: List[A]): List[A] = lReversedRem match {
+    def loop(lReversedRem: MyList[A], agg: MyList[A]): MyList[A] = lReversedRem match {
       case Nil()         => agg
       case Cons(a, tail) => loop(tail, Cons(a, agg))
     }
@@ -34,9 +34,9 @@ object RecursiveFunctionsSolution {
     loop(reverse(l), r)
   }
 
-  def flatMap[A, B](list: List[A])(f: A => List[B]): List[B] = {
+  def flatMap[A, B](list: MyList[A])(f: A => MyList[B]): MyList[B] = {
     @tailrec
-    def loop(rem: List[A], agg: List[B]): List[B] = rem match {
+    def loop(rem: MyList[A], agg: MyList[B]): MyList[B] = rem match {
       case Nil()         => agg
       case Cons(a, tail) => loop(tail, append(f(a), agg))
     }

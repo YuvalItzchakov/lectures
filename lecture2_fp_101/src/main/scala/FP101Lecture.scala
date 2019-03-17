@@ -20,11 +20,11 @@ object FP101Lecture extends JSApp {
       Enumeration(
         Item.stable("Introduction"),
         Item.fadeIn("Immutability"),
-        Item.fadeIn("Algebraic Data Types"),
         Item.fadeIn("Pure Functions"),
         Item.fadeIn("Referential Transparency"),
-        Item.fadeIn("Recursion"),
-        Item.fadeIn("Composability")
+        Item.fadeIn("Composition"),
+        Item.fadeIn("Algebraic Data Types"),
+        Item.fadeIn("Recursion")
       )
     ),
 
@@ -41,23 +41,23 @@ object FP101Lecture extends JSApp {
 
     slide(
       "Definition",
-      <.p("FP is a declarative programming paradigm which tries to structure code as expressions and declarations. Thus, we end up with pure functions, no side-effects or shared mutable state.")
+      <.p(<.i("In computer science, functional programming is a programming paradigm—a style of building the structure and elements of computer programs—that treats computation as the evaluation of mathematical functions and avoids changing-state and mutable data."))
     ),
 
     slide(
-      "Who is it coming from",
-      <.p("The basic ideas stem from Lambda Calculus which was discovered by Alonzo Church in the 1930s.")
+      "Where did it originate?",
+      <.p("The basic ideas stem from Lambda Calculus which was discovered by Alonzo Church in the 1930s."),
+      <.img(
+        ^.alt := "Alonzo Church",
+        ^.src := "./img/alonzo.jpg")
     ),
 
     slide(
       "What we will discuss",
-      <.p("We will concentrate on typed Functional programming fulfilling all properties.")
+      <.p("Core concepts of pure FP in a typed language environment")
     ),
 
-    slide(
-      "What other people/languages do",
-      <.p("Other languages/people might just choose a subset.")
-    )
+    noHeaderSlide(<.p("Lets go!"))
   )
 
   val immutability = chapter(
@@ -67,12 +67,12 @@ object FP101Lecture extends JSApp {
 
     slide(
       "Immutability: definition",
-      <.p("Data never changes.")
+      <.p(<.i("In object-oriented and functional programming, an immutable object (unchangeable object) is an object whose state cannot be modified after it is created"))
     ),
 
     slide(
       "Data never changes",
-      <.h4("We already know it!"),
+      <.h4("We already know this property!"),
       <.br,
       scalaC("""
         // you cannot reassign to `a`
@@ -86,21 +86,24 @@ object FP101Lecture extends JSApp {
         val gandalf = Person("Gandalf", 2019)
 
         gandalf.name = "Gandolf" // not allowed
+
+        // we have to create a copy
+        val properlyNamedGandolf = gandalf.copy(name = "Gandolf")
       """)
     ),
 
     slide(
       "Data never changes",
-      <.h4("Once created your data stays the same until destruction")
+      <.h4("Once created, your data stays the same until destruction")
     ),
 
     noHeaderSlide(
       <.h4("What's the benefit?"),
       <.br,
       Enumeration(
-        Item.stable("state of your values known at all times"),
-        Item.fadeIn("no race-conditions in a concurrent scenario "),
-        Item.fadeIn("simplifies reasoning about values in your code")
+        Item.stable("state of your values are known at all times"),
+        Item.fadeIn("no race-conditions in concurrent execution"),
+        Item.fadeIn("simplifies reasoning about values in your code (what is the current state?)")
       )
     )
   )
@@ -112,7 +115,7 @@ object FP101Lecture extends JSApp {
 
     slide(
       "ADT: definition",
-      <.p("They are compositions of types and resemble algebraic operations.")
+      <.p(<.i("In computer programming, especially functional programming and type theory, an algebraic data type is a kind of composite type, i.e., a type formed by combining other types.\n\nTwo common classes of algebraic types are product types (i.e., tuples and records) and sum types (i.e., tagged or disjoint unions or variant types)"))
     ),
 
     slide(
@@ -134,7 +137,7 @@ object FP101Lecture extends JSApp {
       <.p("Product Type: a single class combining multiple value types"),
       <.br,
       scalaC("""
-        case class Pair(a: Int, b: String)
+        final case class Pair(a: Int, b: String)
       """)
     ),
 
@@ -155,6 +158,11 @@ object FP101Lecture extends JSApp {
     slide(
       "ADT",
       <.p("We already know these constructs. Now we have a name for them.")
+    ),
+
+    slide(
+      "ADT",
+      <.p("""They are our "goto" types for modeling our domains in FP""")
     )
   )
 
@@ -211,7 +219,7 @@ object FP101Lecture extends JSApp {
 
     slide(
       "Exceptions",
-      <.p("A Java construct which bypasses your function applications and crashes a program if not handled."),
+      <.p("A construct which bypasses your function applications and crashes a program if not handled."),
       <.br,
       <.p(
         ^.cls := "fragment fade-in",
@@ -251,6 +259,10 @@ object FP101Lecture extends JSApp {
     slide(
       "Impure Functions: interacts with \"the real world\"",
       scalaC("""
+        sealed trait Either[A, B]
+        final case class Right[A, B](b: B) extends Either[A, B]
+        final case class Left[A](a: A) extends Either[A, B]
+
         // reads file from disk
         def readFile(path: String): Either[Exception, File] = ???
       """),
@@ -289,7 +301,7 @@ object FP101Lecture extends JSApp {
 
     slide(
       "Impure Functions: effect \"the real world\"",
-      <.p("Application Input/Output (IO) is not allowed. How to write useful programs then?"),
+      <.p("If we restrict Input/Output (IO) operations, how do we write useful programs?"),
       <.br,
       <.p(
         ^.cls := "fragment fade-in",
@@ -345,8 +357,9 @@ object FP101Lecture extends JSApp {
       <.h4("What's the benefit?"),
       <.br,
       Enumeration(
-        Item.stable("makes it easy to reason about code"),
-        Item.fadeIn("separates business logic from real world interaction")
+        Item.stable("makes code reproducible"),
+        Item.fadeIn("makes method signatures explicit (what does this function do?)"),
+        Item.fadeIn("separates business logic from real world interaction (more on that when we talk about IO)")
       )
     )
   )
@@ -358,8 +371,42 @@ object FP101Lecture extends JSApp {
 
     slide(
       "Referential Transparency: definition",
-      <.p("An expression is referential transparent if you can replace it by its evaluation result without changing the programs behavior. " +
-          "Otherwise, it is referential opaque.")
+      <.i("An expression is called referentially transparent if it can be replaced with its corresponding value without changing the program's behavior")
+    ),
+
+    slide(
+      "Referential Transparency: example",
+      scalaC(
+        """
+          | // Are these equivalent?
+          |
+          | def print(s: String): Unit = println(s)
+          |
+          | val res: Unit = print("hello impurity!")
+          | <=>
+          | val res: Unit = ()
+          |
+        """.stripMargin
+      )
+    ),
+
+    slide(
+      "Referential Transparency: example",
+      scalaC(
+        """
+          | // Are these equivalent?
+          |
+          | var global = 1
+          | def imFeelinLucky(x: Int): Int = {
+          |   global = global + 1
+          |   global + x
+          |}
+          |
+          | val res: String = imFeelinLucky(1)
+          | <=>
+          | val res: String = 2
+        """.stripMargin
+      )
     ),
 
     slide(
@@ -374,40 +421,6 @@ object FP101Lecture extends JSApp {
     slide(
       "Referential Transparency: pure functions",
       <.h4("All pure functions are referential transparent")
-    ),
-
-    slide(
-      "Referential Opaque",
-      <.p("We already know what effectful and non-deterministic functions look like"),
-      <.br,
-      <.p("But what is with the execution order?")
-    ),
-
-    slide(
-      "Referencial Opaque: variables and execution order",
-      scalaC("""
-        // defines a variable - a mutable (imperative) reference
-        var a = 1
-
-        a == 1
-      """),
-      scalaCFragment("""
-        a = a + 1
-        a == 2
-      """),
-      scalaCFragment("""
-        a = a + 1
-        a == 3
-      """)
-    ),
-
-    noHeaderSlide(
-      <.h4("What's the benefit?"),
-      <.br,
-      Enumeration(
-        Item.stable("makes it easy to reason about code"),
-        Item.fadeIn("separates business logic from real world interaction")
-      )
     )
   )
 
@@ -421,13 +434,17 @@ object FP101Lecture extends JSApp {
       <.p("Solving a problem where the solution depends on solutions to smaller instances of the same problem.")
     ),
 
-    noHeaderSlide(
-      <.h3("Data Types")
+    slide(
+      "Recursion: definition",
+      <.p("Divide & Conquer, similar to how we compose functions")
     ),
 
     slide(
-      "Recursion: data types",
-      <.p("Definition of the data structures depends on itself.")
+      "Recursive data type",
+      <.i("""In computer programming languages, a recursive data type (also known as a recursively-defined, inductively-defined or inductive data type) is a data type for values that may contain other values of the same type. Data of recursive types are usually viewed as directed graphs."""),
+      <.img(
+        ^.alt := "Direct Graph",
+        ^.src := "./img/directedgraph.png")
     ),
 
     slide(
@@ -601,6 +618,10 @@ object FP101Lecture extends JSApp {
          *        left and right tree
          */
 
+        sealed trait Tree[A]
+        final case class Leaf[A](value: A) extends Tree[A]
+        final case class Node[A](left: Tree[A], right: Tree[A]) extends Tree[A]
+
         def size(tree: Tree[Int]): Int = tree match {
       """),
       scalaCFragment("""
@@ -658,7 +679,8 @@ object FP101Lecture extends JSApp {
 
     slide(
       "Recursion: indirect",
-      <.h3("Indirect Recursion")
+      <.h3("Indirect Recursion"),
+      <.p("Indirect recursion occurs when a method invokes another method, eventually resulting in the original method being invoked again.")
     ),
 
     noHeaderSlide(
@@ -687,6 +709,10 @@ object FP101Lecture extends JSApp {
     exerciseSlide(
       "What kind of recursion is it?",
       scalaC("""
+        1. "single/multi recursion"
+        2. "direct/indirect recursion"
+        3. "structural/generative recursion"
+
         def plus(n: Int, m: Int): Int = n match {
           case 0 => m
           case _ => 1 + plus(n - 1, m)
@@ -700,6 +726,10 @@ object FP101Lecture extends JSApp {
     exerciseSlide(
       "What kind of recursion is it?",
       scalaC("""
+        1. "single/multi recursion"
+        2. "direct/indirect recursion"
+        3. "structural/generative recursion"
+
         def produce(n: Int): List[Int] = n match {
           case 0 => Nil()
           case _ => Cons(n, produce(n))
@@ -713,6 +743,10 @@ object FP101Lecture extends JSApp {
     exerciseSlide(
       "What kind of recursion is it?",
       scalaC("""
+        1. "single/multi recursion"
+        2. "direct/indirect recursion"
+        3. "structural/generative recursion"
+
         def parseH(str: List[Char]): Boolean = str match {
           case Cons('h', tail) => parseE(tail)
           case _               => false
@@ -765,50 +799,10 @@ object FP101Lecture extends JSApp {
     ),
 
     slide(
-      "What are possible problems",
+      "What are the possible problems",
       Enumeration(
-        Item.stable("How to fix types of Generics?"),
-        Item.fadeIn("What is the impact of recursion on the runtime behaviour?")
+        Item.stable("impact of recursion on the runtime behaviour")
       )
-    ),
-
-    slide(
-      "Type Parameter: functions",
-      <.p("Again, do we need to write a function for every `A` in a Generic?"),
-      <.br,
-      <.p(
-        ^.cls := "fragment fade-in",
-        "No! type parameters to the rescue."
-      )
-    ),
-
-    slide(
-      "Type Parameters: functions",
-      scalaC("""
-        def length[A](list: List[A]): Int = list match {
-        //         ^             ^
-        //         '             '---------
-        //    type parameter              '
-        //                         fixes list type `A`
-
-          case Nil()         => 0
-          case Cons(_, tail) => 1 + length[A](list)
-        }
-      """)
-    ),
-
-    slide(
-      "Type Parameters: functions",
-      scalaC("""
-        length[Int](Cons(1, Cons(2, Nil()))) == 2
-
-        // or we rely on inference again
-
-        length(Cons(1, Cons(2, Nil()))) == 2
-        // Scala knows that `1: Int`
-        //   '- List[A] ~ List[Int]
-        //        '- length[A] ~ length[Int]
-      """)
     ),
 
     slide(
@@ -841,7 +835,7 @@ object FP101Lecture extends JSApp {
       <.br,
       <.p(
         ^.cls := "fragment fade-in",
-        "Your program will run out of memory (stack overflow)"
+        "Your program will run out of stack space (stack overflow)"
       )
     ),
 
@@ -1034,7 +1028,7 @@ object FP101Lecture extends JSApp {
     slide(
       "Composition: data structures",
       scalaC("""
-        val strs = Cons("Hello", Cons("world", Nil()))
+        val strs = "Hello" :: "World" :: Nil
 
         def strToChars(str: String): List[Char] = ???
 
@@ -1050,7 +1044,6 @@ object FP101Lecture extends JSApp {
     slide(
       "Composition: data structures",
       scalaC("""
-        // we already know map (exercises)
         def map[A, B](as: List[A])(f: A => B): List[B]
       """),
       scalaCFragment("""
@@ -1094,6 +1087,7 @@ object FP101Lecture extends JSApp {
       scalaC("""
         // or we combine them
         def flatMap[A, B](as: List[A])(f: A => List[B]): List[B] = 
+        def flatMap[A, B](as: List[A])(f: A => List[B]): List[B] =
           flatten(map(as)(f))
 
         val chars = flatMap(strs)(a => strToChars(a))
@@ -1109,9 +1103,9 @@ object FP101Lecture extends JSApp {
           strs => map(flatMap(strs)(strToChars))(show)
 
 
-        val list = Cons("hello", Cons("world", Nil()))
+        val list = "hello" :: "world" :: Nil
 
-        complex(list) == Cons('H', Cons('E', ...))
+        complex(list) == 'H' :: 'E' ... :: Nil
       """)
     ),
 
@@ -1158,23 +1152,19 @@ object FP101Lecture extends JSApp {
 
     slide(
       "Composition: for-comprehension",
-      scalaC("""
-        // comes in handy later on
-        for {
-          a <- f(in)
-          b <- g(a)
-          ...
-          z <- h(???)
-        } yield doSomething(z)
-      """),
+      scalaC(
+        """
+          |@ val list = List(List(1,2,3), List(4,5,6))
+          |list: List[List[Int]] = List(List(1, 2, 3), List(4, 5, 6))
+          |
+          |@ for {
+          |  inner <- list
+          |  integer <- inner
+          |  } yield integer + 1
+          |res1: List[Int] = List(2, 3, 4, 5, 6, 7)
+        """.stripMargin),
       scalaCFragment("""
-        f(in).flatMap{ a =>
-          g(a).flatMap { b =>
-            ... {
-              soSomething(z)
-            }
-          }
-        }
+        list.flatMap(inner => inner.map(integer => integer + 1))
       """)
     ),
 
@@ -1190,7 +1180,9 @@ object FP101Lecture extends JSApp {
       <.h4("What's the benefit?"),
       <.br,
       Enumeration(
-        Item.stable("solve complex problems with divide & conquer")
+        Item.stable("make one function solve a single problem well"),
+        Item.fadeIn("combine these functions into a bigger pipeline"),
+        Item.fadeIn("as humans like it, divide & conquer")
       )
     )
   )
@@ -1207,7 +1199,7 @@ object FP101Lecture extends JSApp {
 
     slide(
       "Algebraic Data Structures",
-      <.h4("Composition of types")
+      <.h4("Composition of sum and product types")
     ),
 
     slide(
@@ -1250,11 +1242,11 @@ object FP101Lecture extends JSApp {
           overview,
           introduction,
           immutability,
-          adts,
           pureFunctions,
           referentialTransparency,
-          recursion,
           composition,
+          adts,
+          recursion,
           summary
         )
       )

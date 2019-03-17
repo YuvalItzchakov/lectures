@@ -1,8 +1,8 @@
 package exercise2
 
-sealed trait List[A]
-case class Cons[A](head: A, tail: List[A]) extends List[A]
-case class Nil[A]() extends List[A]
+sealed trait MyList[A]
+case class Cons[A](head: A, tail: MyList[A]) extends MyList[A]
+case class Nil[A]() extends MyList[A]
 
 /** Write your solutions as stand-alone functions. */
 object RecursiveData {
@@ -12,14 +12,14 @@ object RecursiveData {
 
 
   // apply your solution-function from (a) here, DO NOT change the signature
-  def testListIntEmpty(list: List[Int]): Boolean = false
+  def testListIntEmpty(list: MyList[Int]): Boolean = false
 
   // b) Implement a function which gets the head of a `List[Int]` or returns -1 if empty.
 
 
 
   // apply your solution-function from (b) here, DO NOT change the signature
-  def testListIntHead(list: List[Int]): Int = 0
+  def testListIntHead(list: MyList[Int]): Int = 0
 
   // c) Can we change `List[A]` to guarantee to be not-empty?
 

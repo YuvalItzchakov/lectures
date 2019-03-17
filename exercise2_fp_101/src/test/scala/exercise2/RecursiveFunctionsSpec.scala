@@ -10,9 +10,9 @@ import scala.annotation.tailrec
 
 object RecursiveFunctionsSpec extends Properties("recursive functions") {
 
-  implicit val listGen = Arbitrary[List[Int]] { 
+  implicit val listGen = Arbitrary[MyList[Int]] {
     Gen.choose(0, 10).flatMap { length =>
-      def generateList(acc: List[Int], l: Int): Gen[List[Int]] = {
+      def generateList(acc: MyList[Int], l: Int): Gen[MyList[Int]] = {
         if (l == 0)
           acc
         else for {
@@ -30,19 +30,19 @@ object RecursiveFunctionsSpec extends Properties("recursive functions") {
     a <- arbitrary[String]
   } yield (n, a)
 
-  property("reverse lists") = forAll { list: List[Int] => 
+  property("reverse lists") = forAll { list: MyList[Int] =>
     RecursiveFunctions.testReverse(list) =? RecursiveFunctionsSolution.reverse(list)
   }
 
-  property("map values") = forAll { list: List[Int] => 
+  property("map values") = forAll { list: MyList[Int] =>
     RecursiveFunctions.testMap[Int, String](list, _.toString) =? RecursiveFunctionsSolution.map(list)(_.toString)
   }
 
-  property("append lists") = forAll { (l: List[Int], r: List[Int]) =>
+  property("append lists") = forAll { (l: MyList[Int], r: MyList[Int]) =>
     RecursiveFunctions.testAppend(l, r) =? RecursiveFunctionsSolution.append(l, r)
   }
 
-  property("flatMap values") = forAll { list: List[Int] => 
+  property("flatMap values") = forAll { list: MyList[Int] =>
     RecursiveFunctions.testFlatMap[Int, String](list, a => Cons(a.toString, Nil())) =? RecursiveFunctionsSolution.flatMap(list)(a => Cons(a.toString, Nil()))
   }
 }
